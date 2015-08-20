@@ -6,8 +6,7 @@ class UserMailer < ApplicationMailer
   end
 
   def password_reset(user)
-    @greeting = "Hi"
-
-    mail to: "to@example.org"
+    @user = user
+    mail to: user.email, subject: "Bingo on Rails password reset"
   end
 end
