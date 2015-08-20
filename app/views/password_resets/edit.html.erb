@@ -7,14 +7,19 @@
 			<%= render 'shared/error_messages' %>
 
 			<%= hidden_field_tag :email, @user.email %>
-
-			<%= f.label :password %>
-			<%= f.password_field :password, class: 'form-control' %>
-
-			<%= f.label :password_confirmation, "Confirmation" %>
-			<%= f.password_field :password_confirmation, class: 'form-control' %>
-
-			<%= f.submit "Update password", class: "btn btn-primary" %>
+			<div class="form-group">
+				<%= f.label :password %>
+				<%= f.password_field :password, class: 'form-control' %>
+			</div>
+			<div class="form-group">
+				<%= f.label :password_confirmation, "Confirmation" %>
+				<%= f.password_field :password_confirmation, 
+					class: 'form-control' %>
+			</div>
+			<div class="form-group">
+				<%= f.submit "Update password", class: "btn btn-primary",
+												id: "updatePasswordSubmitBtn" %>
+			</div>
 		<% end %>
 	</div>
 </div>

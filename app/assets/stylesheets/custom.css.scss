@@ -1,6 +1,12 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+@mixin submitBtn {
+   display: block;
+   margin: 1em auto;
+   width: 40%;
+}
+
 /* Push body down from navbar */
 
 body {
@@ -83,8 +89,6 @@ footer ul li {
 /* Login Form */
 
 .checkbox {
-  margin-top: -10px;
-  margin-bottom: 10px;
   span {
     margin-left: 20px;
     font-weight: normal;
@@ -94,6 +98,10 @@ footer ul li {
 #session_remember_me {
   width: auto;
   margin-left: 0;
+}
+
+#loginBtn {
+  @include submitBtn;
 }
 
 /* Users index */
@@ -106,4 +114,24 @@ footer ul li {
     padding: 10px 0;
     border-bottom: 1px solid $gray-lighter;
   }
+}
+
+/* User edit */
+
+.gravatar_edit {
+  margin-top: 2em;
+}
+
+#userEditSubmitBtn {
+ @include submitBtn;
+}
+
+/* Password Reset */
+
+#resetPasswordSubmitBtn {
+  @include submitBtn;
+}
+
+#updatePasswordSubmitBtn {
+  @include submitBtn;
 }
