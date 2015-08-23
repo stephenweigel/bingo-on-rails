@@ -1,0 +1,31 @@
+// Place all the styles related to the Games controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+/* Scoreboard Styles */
+
+#bingoScoreboard {
+  background-color: black;
+  color: white;
+  font-size: 1.5em;
+  text-align: center;
+  margin-top: 2em;
+}
+
+.letterCell {
+	background-color: green;
+}
+
+#currentNumber {
+	font-size: 2em;
+  font-weight: bold;
+  background-color: rgb(223, 223, 223);
+  color: green;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  text-align: center;
+  padding-top: .6em;
+  margin: 1em auto;
+  border: 2px solid green;
+}

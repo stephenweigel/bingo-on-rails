@@ -1,0 +1,18 @@
+<% provide(:title, "New Bingo Game") %>
+<h1>Set up a new game</h1>
+
+<%= form_for(:bingo, url: bingo_path )  do |f| %>
+	<div class="form-group">
+		<%= f.label :players, "Number of Players" %>
+		<%= f.number_field :players, class: "form-control" %> 
+	</div>
+
+	<div class="form-group">
+		<%= f.label :game_speed, "Seconds between calls" %>
+		<%= f.number_field :game_speed, class: "form-control" %>
+	</div>
+
+	<div class="form-group">
+		<%= f.submit "Start Game", class: "btn btn-primary" %>
+	</div>
+<% end %>
