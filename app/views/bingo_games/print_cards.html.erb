@@ -1,0 +1,14 @@
+<div class="row">
+	<%= link_to "Start Game", @current_game %>
+</div>
+
+<div class="row">
+	<h1>Print Cards</h1>
+
+	<%= select_tag :player_select, options_for_select(@player_array),
+								include_blank: "Select a Player" %>
+
+	<% @players.each do |player| %>
+		<%= render 'player_cards', p: player %>
+	<% end %>
+</div>

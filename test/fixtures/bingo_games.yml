@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  num_players: 1
+  cards_per_player: 1
+  call_cycle: 1
+  players: 
+
+two:
+  user_id: 1
+  num_players: 1
+  cards_per_player: 1
+  call_cycle: 1
+  players: 

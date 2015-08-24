@@ -11,10 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150820131437) do
+ActiveRecord::Schema.define(version: 20150824145259) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bingo_games", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "num_players"
+    t.integer  "cards_per_player"
+    t.integer  "call_cycle"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.text     "players"
+    t.text     "called_numbers"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "name"

@@ -1,0 +1,25 @@
+<div class="row hide playerRow" id="<%=p.css_id%>Card">
+ 	<h5 class="printOnly text-center"><%= p.name %></h5>
+ 	<div>
+ 		<% @cards_per_player.times do |n| %>
+		 	<div class='col-md-4'>
+				<table class="table text-center playerCard" id="card<%= n  %>">
+					<tr>
+						<th class='text-center'>B</th>
+						<th class='text-center'>I</th>
+						<th class='text-center'>N</th>
+						<th class='text-center'>G</th>
+						<th class='text-center'>O</th>
+					</tr>
+					<% 5.times do |c| %>
+						<tr>
+							<% p.cards[n].each do |r,v| %>
+								<td><%= v[c] %></td>
+							<% end %>
+						</tr>
+					<% end %>
+			 	</table>
+		 	</div>
+	 	<% end %>
+	</div>
+</div>

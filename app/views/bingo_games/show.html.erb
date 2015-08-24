@@ -1,0 +1,29 @@
+<%= form_for(@current_game) do |f| %>
+	<%= hidden_field_tag :players, @current_game[:players], id: "players" %>
+	<%= hidden_field_tag :num_players, @current_game[:num_players], id: "num_players" %>
+	<%= hidden_field_tag :call_cycle, @current_game[:call_cycle], id: "gameSpeed" %>
+	<%= hidden_field_tag :called_numbers, @current_game[:called_numbers], id:"called_numbers" %>
+
+	<% if logged_in? %>
+		<%= f.submit "Save Game", class: "btn btn-primary" %>
+	<% else %>
+		<p>Log in to Save Game</p>
+	<% end   %>
+<% end %>
+
+<%= render 'bingo_games/scoreboard' %>
+
+<p id="currentNumber">...</p>
+
+<div>
+	<btn class="btn btn-primary" id="resumeGame">Resume</btn>
+	<btn class="btn btn-primary" id="stopGame">Pause</btn>
+</div>
+
+
+<select id="playerSelect" >
+	<option>Select Player</option>
+	<% @current_game[:num_players].to_i.times do |p| %>
+		<option value="<%= p %>">Player <%= p + 1 %></option>
+	<% end %>
+</select>

@@ -88,36 +88,6 @@ Bingo.prototype = {
 		$(cell).css("background-color","green");
 	},
 
-	"generateBingoCardNumbers": function() {
-		var shuffled = {
-			B: this.shuffle(this.bingoNumbers.B),
-			I: this.shuffle(this.bingoNumbers.I),
-			N: this.shuffle(this.bingoNumbers.N),
-			G: this.shuffle(this.bingoNumbers.G),
-			O: this.shuffle(this.bingoNumbers.O),
-		};
-
-		var cardNumbers = {
-			B: shuffled.B.slice(0,5),
-			I: shuffled.I.slice(0,5),
-			N: shuffled.N.slice(0,5),
-			G: shuffled.G.slice(0,5),
-			O: shuffled.O.slice(0,5)
-		};
-
-		cardNumbers.N[2] = "Free";
-		return cardNumbers;
-	},
-
-	// assign bingo cards to each of the players
-	"distributeCards": function() {
-		for ( var i = 0; i < this.players.length; i++ ) {
-			for ( var x = 0; x < this.cardsPerPlayer; x++ ) {
-				this.players[i].cards.push(this.generateBingoCardNumbers());
-			}
-		}
-	},
-
 	// highlight the bingo card on squares that match the given value
 	"highlightPlayerCard": function(val) {
 		$(".playerCard td").filter(function() { 
@@ -149,12 +119,31 @@ Bingo.prototype = {
 
 	"runGame": function() {
 		var currGame = this;
-
-		// get first number if at the start of a game
-		if ( currGame.usedNumbers.length == 0 ) {
+		// check if it is the start of a game
+		if ( $("#called_numbers").val() == "" ) {
 			var firstNumber = currGame.getNextNumber();
 			$('#currentNumber').text(firstNumber);
+			// add chosen number to the called_numbers array
+			$("#called_numbers").val(currGame.usedNumbers);
 			currGame.currentNumber = firstNumber;
+		} else {
+			// add previously called numbers to usedNumbers
+			currGame.usedNumbers = $("#called_numbers").val().split(",");
+			// remove the usedNumbers from available numbers
+			for ( var i = 0; i < currGame.usedNumbers.length; i++ ) {
+				// highlight previous called numbers on the scoreboard
+				currGame.highlightNumber(currGame.usedNumbers[i]);
+				var index = $.inArray(currGame.usedNumbers[i], currGame.availableNumbers );
+				if (index > -1) {
+				    currGame.availableNumbers.splice(index, 1);
+				}
+			}
+		
+
+			var nextNumber = currGame.getNextNumber();
+			$('#currentNumber').text(nextNumber);
+			currGame.currentNumber = nextNumber;
+			$("#called_numbers").val(currGame.usedNumbers);
 		}
 		// get next number every 5 seconds
 		currGame.gameInterval = setInterval(function () {
@@ -163,6 +152,8 @@ Bingo.prototype = {
 			}
 			var currentNumber = currGame.getNextNumber();
 			$('#currentNumber').text(currentNumber);
+			// add chosen number to the called_numbers array
+			$("#called_numbers").val(currGame.usedNumbers);
 			currGame.currentNumber = currentNumber;
 	    },currGame.gameSpeed);
 	},

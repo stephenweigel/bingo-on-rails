@@ -1,0 +1,23 @@
+<% provide(:title, "New Bingo Game") %>
+<h1>Set up a new game</h1>
+
+<%= form_for @BingoGame  do |f| %>
+	<div class="form-group">
+		<%= f.label :num_players, "Number of Players" %>
+		<%= f.number_field :num_players, class: "form-control" %> 
+	</div>
+
+	<div class="form-group">
+		<%= f.label :cards_per_player, "Cards per Player" %>
+		<%= f.select :cards_per_player, options_for_select([['9'],['18'], ['36']]) %>
+	</div>
+
+	<div class="form-group">
+		<%= f.label :call_cycle, "Seconds between calls" %>
+		<%= f.number_field :call_cycle, class: "form-control" %>
+	</div>
+
+	<div class="form-group">
+		<%= f.submit "Start Game", class: "btn btn-primary" %>
+	</div>
+<% end %>

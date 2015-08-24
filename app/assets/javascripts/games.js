@@ -1,11 +1,9 @@
 $( document ).ready(function() {
 	
 	// Start Game
-	var numPlayers = $('#players').val();
-	if ( numPlayers ) { // on the bingo screen
-		
-		startBingoGame(numPlayers);
-
+	if ( $("table#bingoScoreboard").length ) { // on the bingo screen
+		var bingo = new Bingo;
+		startBingoGame(bingo,$('#gameSpeed').val());
 
 		// Game Button Functionality
 
@@ -22,41 +20,25 @@ $( document ).ready(function() {
 			$("#resumeGame").show();
 		});	
 
-		$('#playerSelect').on('change', function() {
-			displayPlayerCard($('#playerSelect').val());
+		
+	} // if #bingoScoreboard
+
+	if ( $('#player_select') ) { 
+		$('#player_select').on('change', function() {
+			$('.playerRow').addClass('hide');
+			displayPlayerCard($('#player_select').val());
 		});
-	}
+	} // if #player_select
 });
 
-var bingo = new Bingo;
-
-var startBingoGame = function (numPlayers) {
-		bingo.setNumberOfPlayers(numPlayers);
-		bingo.gameSpeed = Number($('#gameSpeed').val()) * 1000;
-		bingo.distributeCards();
+var startBingoGame = function (bingo,gameSpeed) {
+		bingo.gameSpeed = gameSpeed || 5000;
 		bingo.runGame();
-};
+	};
 
 var displayPlayerCard = function(playerNum) {
-	$('#playerName').text("Player " + (Number(playerNum) + 1));
-
-	for ( var c = 0; c <= bingo.players[playerNum].cards.length; c++ ) {
-		var html = "";
-		$("#card" + c).html(html);
-		html  = "<tr><th class='text-center'>B</th><th class='text-center'>I</th>";
-		html += "<th class='text-center'>N</th><th class='text-center'>G</th>";
-		html += "<th class='text-center'>O</th></tr>";
-
-		var playerCard = bingo.players[playerNum].cards[c];
-		for ( b in playerCard ) { 
-			var row = playerCard[b];
-			html += "<tr>";
-			for ( var i = 0; i < row.length; i++ ) {
-				html  += "<td>" + row[i] + "</td>";
-			}
-			html += "</tr>"
-		}
-		$("#card" + c).append(html);
-	}
-
+		$("#" + playerNum).removeClass('hide');
 };
+
+
+

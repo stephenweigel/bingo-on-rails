@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-  get 'games/new'
-
-  get 'games/show'
-
   get 'password_resets/new'
 
   get 'password_resets/edit'
@@ -16,12 +12,13 @@ Rails.application.routes.draw do
   get		  'login'		 =>	'sessions#new'
   post		'login'		 =>	'sessions#create'
   delete	'logout'	 =>	'sessions#destroy'
-  get     'new-game' => 'games#new'
-  get     'bingo'    => 'games#show'
-  post    'bingo'    => 'games#show'
+  get     'new-game' => 'bingo_games#new'
+  get     '/print-cards/:id' => 'bingo_games#print_cards'
+  post    'print-cards' => 'bingo_games#print_cards'
 
-
+ 
   resources :users
+  resources :bingo_games
   resources :account_activations, only: [:edit]
   resources :password_resets, only: [:new, :create, :edit, :update]
 end
