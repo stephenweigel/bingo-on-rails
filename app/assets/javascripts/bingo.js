@@ -14,6 +14,8 @@ function Bingo() {
 	this.currentNumber; // stores the current number being called
 	this.gameInterval; // stores the interval for calling new number
 	this.gameSpeed = 5000; // get new number every 5 seconds
+	this.game_loaded = false;
+	this.game_running = true;
 
 	// Players
 	this.players = [];
@@ -127,6 +129,7 @@ Bingo.prototype = {
 			$("#called_numbers").val(currGame.usedNumbers);
 			currGame.currentNumber = firstNumber;
 		} else {
+			currGame.game_running = false;
 			// add previously called numbers to usedNumbers
 			currGame.usedNumbers = $("#called_numbers").val().split(",");
 			// remove the usedNumbers from available numbers
@@ -137,6 +140,7 @@ Bingo.prototype = {
 				if (index > -1) {
 				    currGame.availableNumbers.splice(index, 1);
 				}
+
 			}
 		
 
@@ -144,6 +148,12 @@ Bingo.prototype = {
 			$('#currentNumber').text(nextNumber);
 			currGame.currentNumber = nextNumber;
 			$("#called_numbers").val(currGame.usedNumbers);
+			$("#stopGame").hide();
+
+			if ( currGame.game_loaded == false ) {
+				currGame.game_loaded = true;
+				return
+			}
 		}
 		// get next number every 5 seconds
 		currGame.gameInterval = setInterval(function () {

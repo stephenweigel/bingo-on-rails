@@ -3,9 +3,8 @@ class BingoGamesController < ApplicationController
   before_action :logged_in_user, only: [:index, :update]
 
   def index
-  	@bingo_games = BingoGame.all
+  	@bingo_games = BingoGame.where(user_id: current_user.id) || []
   end
-
 
   def show
     @current_game = BingoGame.find(params[:id])
@@ -48,6 +47,16 @@ class BingoGamesController < ApplicationController
     end
 
   end
+
+  def destroy
+    if ( BingoGame.find(params[:id]).destroy ) 
+      flash[:success] = "The game was successfully deleted."
+      redirect_to bingo_games_path
+    else
+      flash[:danger] = "An error has occurred."
+      redirect_to bingo_games_path
+    end
+  end
  
 
   def print_cards
@@ -56,7 +65,6 @@ class BingoGamesController < ApplicationController
     @player_array = @players.map { |p| [p.name, "#{p.css_id}Card"] }
     @cards_per_player = @current_game.cards_per_player
   end
-
 
 
   private

@@ -7,7 +7,10 @@ $( document ).ready(function() {
 
 		// Game Button Functionality
 
-		$("#resumeGame").hide();
+		if ( bingo.game_running == true ) {
+			$("#resumeGame").hide();
+		}
+		
 		$("#resumeGame").on('click', function() {
 			bingo.runGame();
 			$(this).hide();

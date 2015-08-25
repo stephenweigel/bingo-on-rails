@@ -1,6 +1,22 @@
+<% provide(:title, "My Games") %>
+<h1>My Games</h1>
 
-
-<ul>
-	<%= render @bingo_games %>
-</ul>
-
+<table class="table">
+	<tr>
+		<th>Date</th>
+		<th>Players</th>
+		<th>Numbers Left</th>
+		<th>Load</th>
+		<th>Delete</th>
+	</tr>
+	<% @bingo_games.each do |g| %>
+		<tr>
+			<td><%= g.updated_at.to_formatted_s(:long) %></td>
+			<td><%= pluralize(g.players.length, "Player") %></td>
+			<td><%= pluralize((75 - g.called_numbers.split(',').length), "Numbers") %> Left </td>
+			<td><%= link_to "Resume", g %></td>
+			<td><%= link_to "Delete", g, method: :delete,
+									  data: { confirm: "Confirm Deletion" } %></td>
+		</tr>
+	<% end %>
+</table>

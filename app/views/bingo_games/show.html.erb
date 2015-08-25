@@ -21,9 +21,3 @@
 </div>
 
 
-<select id="playerSelect" >
-	<option>Select Player</option>
-	<% @current_game[:num_players].to_i.times do |p| %>
-		<option value="<%= p %>">Player <%= p + 1 %></option>
-	<% end %>
-</select>

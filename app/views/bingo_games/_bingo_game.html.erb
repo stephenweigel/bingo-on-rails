@@ -1,5 +1,9 @@
 <li>
-	<p><%= bingo_game.created_at %><p>
-		| <%= link_to "delete", bingo_game, method: :delete,
+	<p><%= bingo_game.created_at.to_formatted_s(:long) %></p>
+	<% if current_user.admin == true %>
+	<p>
+		<%= current_user.name %> | <%= link_to "delete", bingo_game, method: :delete,
 									  data: { confirm: "Confirm Deletion" } %>
+	</p>
+	<% end %>
 </li>
