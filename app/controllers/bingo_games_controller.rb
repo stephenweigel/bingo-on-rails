@@ -28,7 +28,6 @@ class BingoGamesController < ApplicationController
       flash[:success] = "Game successfully created."
   		redirect_to "/print-cards/#{@bingo_game.id}"
   	else
-      #flash.now[:danger] = "There was an error creating your game."
   		render 'new'
   	end
   end
