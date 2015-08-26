@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
       if user.activated?
         log_in user
         params[:session][:remember_me] == '1' ? remember(user) : forget(user)
-        redirect_back_or user
+        redirect_back_or bingo_games_path
       else
         message  = "Account not activated. "
         message += "Check your email for the activation link."
@@ -23,6 +23,7 @@ class SessionsController < ApplicationController
 
   def destroy
     log_out if logged_in?
+    flash[:success] = "You have successfully logged out."
     redirect_to root_url
   end
 end

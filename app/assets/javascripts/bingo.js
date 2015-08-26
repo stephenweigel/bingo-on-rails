@@ -128,6 +128,7 @@ Bingo.prototype = {
 			// add chosen number to the called_numbers array
 			$("#called_numbers").val(currGame.usedNumbers);
 			currGame.currentNumber = firstNumber;
+			$("#saveGameBtn").prop("disabled", true).val("Pause to Save Game");
 		} else {
 			currGame.game_running = false;
 			// add previously called numbers to usedNumbers
@@ -149,8 +150,12 @@ Bingo.prototype = {
 			currGame.currentNumber = nextNumber;
 			$("#called_numbers").val(currGame.usedNumbers);
 			$("#stopGame").hide();
-
+			if ( $('#saveGameBtn').length ){
+				$("#saveGameBtn").prop("disabled", false).val("Save Game");
+			}
+			
 			if ( currGame.game_loaded == false ) {
+
 				currGame.game_loaded = true;
 				return
 			}

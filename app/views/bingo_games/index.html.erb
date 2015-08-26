@@ -11,7 +11,7 @@
 	</tr>
 	<% @bingo_games.each do |g| %>
 		<tr>
-			<td><%= g.updated_at.to_formatted_s(:long) %></td>
+			<td><%= g.updated_at.in_time_zone("Eastern Time (US & Canada)").strftime("%Y-%d-%m %I:%M %p %Z") %></td>
 			<td><%= pluralize(g.players.length, "Player") %></td>
 			<td><%= pluralize((75 - g.called_numbers.split(',').length), "Numbers") %> Left </td>
 			<td><%= link_to "Resume", g %></td>

@@ -11,12 +11,12 @@
 
 body {
   padding-top: 60px;
-}
-@media (max-width: 979px) {
-  body {
-    padding-top: 0px;
+
+  @media ( max-width: 995px) {
+    padding-top: 100px;
   }
 }
+
 
 
 /* Header */

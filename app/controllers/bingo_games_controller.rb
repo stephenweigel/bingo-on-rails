@@ -11,7 +11,7 @@ class BingoGamesController < ApplicationController
   end
 
   def new
-  	@BingoGame = BingoGame.new
+  	@bingo_game = BingoGame.new
   end
 
   def create
@@ -20,16 +20,16 @@ class BingoGamesController < ApplicationController
   	game_info = {
   		num_players: game_params[:num_players].to_i,
   		cards_per_player: game_params[:cards_per_player].to_i,
-  		call_cycle: game_params[:call_cycle].to_i * 1000,
+  		call_cycle: game_params[:call_cycle].to_i,
   		players: new_game.players
   	}
-  	bingo_game = BingoGame.create(game_info)
-  	if ( bingo_game ) 
+  	@bingo_game = BingoGame.new(game_info)
+  	if ( @bingo_game.save ) 
       flash[:success] = "Game successfully created."
-  		redirect_to "/print-cards/#{bingo_game.id}"
+  		redirect_to "/print-cards/#{@bingo_game.id}"
   	else
-      flash[:danger] = "There was an error creating your game."
-  		redirect_to root_url
+      #flash.now[:danger] = "There was an error creating your game."
+  		render 'new'
   	end
   end
 

@@ -3,7 +3,8 @@ $( document ).ready(function() {
 	// Start Game
 	if ( $("table#bingoScoreboard").length ) { // on the bingo screen
 		var bingo = new Bingo;
-		startBingoGame(bingo,$('#gameSpeed').val());
+		startBingoGame(bingo,($('#gameSpeed').val() * 1000));
+		console.log(bingo.gameSpeed);
 
 		// Game Button Functionality
 
@@ -14,14 +15,24 @@ $( document ).ready(function() {
 		$("#resumeGame").on('click', function() {
 			bingo.runGame();
 			$(this).hide();
+			$("#saveGameBtn").prop("disabled", true).val("Pause to Save Game");
+
 			$('#stopGame').show();
 		});
 
 		$('#stopGame').on('click',function () {
 			bingo.stopGame();
 			$(this).hide();
+			$("#saveGameBtn").prop("disabled", false).val("Save Game");
+
 			$("#resumeGame").show();
 		});	
+
+		if ( $("#saveGameBtn").length ) {
+			if ( bingo.game_running == false ) {
+				$("#saveGameBtn").prop("disabled", false);
+			}
+		}
 
 		
 	} // if #bingoScoreboard

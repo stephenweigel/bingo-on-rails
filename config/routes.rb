@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get     'new-game' => 'bingo_games#new'
   get     '/print-cards/:id' => 'bingo_games#print_cards'
   post    'print-cards' => 'bingo_games#print_cards'
+  
 
 
  
