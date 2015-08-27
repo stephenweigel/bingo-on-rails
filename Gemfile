@@ -21,6 +21,10 @@ group :development, :test do
   gem 'byebug',		'3.4.0'
   gem 'web-console', '~> 2.0'
   gem 'spring',		'1.3.6'
+  gem 'rspec-rails', '~> 3.0'
+  gem 'capybara'
+  gem 'guard-rspec'
+  gem 'spring-commands-rspec'
 end
 
 group :test do
