@@ -32,6 +32,7 @@ group :test do
   gem 'mini_backtrace',     '0.1.3'
   gem 'guard',              '2.13.0'
   gem 'guard-minitest',     '2.4.4'
+  gem 'shoulda-matchers', require: false
 end
 
 group :production do
