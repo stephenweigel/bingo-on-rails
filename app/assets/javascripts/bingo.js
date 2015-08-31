@@ -117,7 +117,6 @@ Bingo.prototype = {
 	"runGame": function() {
 		var currGame = this;
 		if ( this.isNewGame() ) {
-			console.log("this should start the new game");
 			this.gameSpeed = this.selectors.gameSpeed.val() * 1000;
 			this.toggleGameButtons();
 			this.callNextNumber();
@@ -170,9 +169,7 @@ Bingo.prototype = {
 		this.usedNumbers = this.selectors.calledNumbers.val().split(",");
 	},
 	"continueGame" : function(currGame) {
-		console.log("currGame gamespeed is: " + currGame.gameSpeed);
 		currGame.gameInterval = setInterval(function () {
-			console.log("in the interval");
 	        if (currGame.usedNumbers.length > 0 ) {
 				currGame.highlightNumber(currGame.currentNumber, currGame.selectors.scoreboard);
 			}

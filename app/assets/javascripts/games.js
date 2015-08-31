@@ -5,7 +5,6 @@ $( document ).ready(function() {
 		if (!bingo) {
 			var bingo = new Bingo;
 			startBingoGame(bingo,($('#gameSpeed').val() * 1000));
-			console.log(" game speed is: " + bingo.gameSpeed);
 		}
 
 		// Game Button Functionality
