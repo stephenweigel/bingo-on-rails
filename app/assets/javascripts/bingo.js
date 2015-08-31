@@ -6,20 +6,23 @@ function Bingo() {
 		G: [46,47,48,49,50,51,52,53,54,55,56,57,58,59,60],
 		O: [61,62,63,64,65,66,67,68,69,70,71,72,73,74,75]
 	};
-
 	// stores the numbers that have not been called yet
 	this.availableNumbers = this.getNumberPairs(this.bingoNumbers); 
-
 	this.usedNumbers = []; // stores the numbers that have already been called
 	this.currentNumber; // stores the current number being called
 	this.gameInterval; // stores the interval for calling new number
 	this.gameSpeed = 5000; // get new number every 5 seconds
 	this.game_loaded = false;
 	this.game_running = true;
-
-	// Players
-	this.players = [];
-	this.cardsPerPlayer = 9;
+	this.selectors = {
+		calledNumbers: $("#called_numbers"),
+		currentNumber: $('#currentNumber'),
+		saveButton: $("#saveGameBtn"),
+		resumeGameButton: $("#resumeGame"),
+		stopGameButton: $("#stopGame"),
+		scoreboard: "#scoreboard",
+		gameSpeed: $('#gameSpeed')
+	}
 }
 
 Bingo.prototype = {
@@ -111,71 +114,100 @@ Bingo.prototype = {
 		}
 	},
 
-	// Players
-	"setNumberOfPlayers": function(num) {
-		this.players = [];
-		for ( var x = 0; x < num; x++ ) {
-			this.players.push(new Player(x + 1));
-		}
-	},
-
 	"runGame": function() {
 		var currGame = this;
-		// check if it is the start of a game
-		if ( $("#called_numbers").val() == "" ) {
-			var firstNumber = currGame.getNextNumber();
-			$('#currentNumber').text(firstNumber);
-			// add chosen number to the called_numbers array
-			$("#called_numbers").val(currGame.usedNumbers);
-			currGame.currentNumber = firstNumber;
-			$("#saveGameBtn").prop("disabled", true).val("Pause to Save Game");
+		if ( this.isNewGame() ) {
+			console.log("this should start the new game");
+			this.gameSpeed = this.selectors.gameSpeed.val() * 1000;
+			this.toggleGameButtons();
+			this.callNextNumber();
+			this.continueGame(this);
+		} 
+		else if ( this.game_loaded == false && !this.isNewGame()) {
+			this.game_running = false;
+			this.loadGame();
+			this.removeCalledNumbersFromAvailableNumbers();
+			this.highlightPreviouslyCalledNumbers();
+			this.callNextNumber();
+			this.toggleGameButtons();
+			this.game_loaded = true;
+			return
 		} else {
-			currGame.game_running = false;
-			// add previously called numbers to usedNumbers
-			currGame.usedNumbers = $("#called_numbers").val().split(",");
-			// remove the usedNumbers from available numbers
-			for ( var i = 0; i < currGame.usedNumbers.length; i++ ) {
-				// highlight previous called numbers on the scoreboard
-				currGame.highlightNumber(currGame.usedNumbers[i]);
-				var index = $.inArray(currGame.usedNumbers[i], currGame.availableNumbers );
-				if (index > -1) {
-				    currGame.availableNumbers.splice(index, 1);
-				}
-
-			}
-		
-
-			var nextNumber = currGame.getNextNumber();
-			$('#currentNumber').text(nextNumber);
-			currGame.currentNumber = nextNumber;
-			$("#called_numbers").val(currGame.usedNumbers);
-			$("#stopGame").hide();
-			if ( $('#saveGameBtn').length ){
-				$("#saveGameBtn").prop("disabled", false).val("Save Game");
-			}
-			
-			if ( currGame.game_loaded == false ) {
-
-				currGame.game_loaded = true;
-				return
-			}
+			this.game_running = true;
+			this.continueGame(this);
 		}
-		// get next number every 5 seconds
+	},
+	// check if this is the beginning of a game
+	"isNewGame": function() {
+		if ( this.selectors.calledNumbers.val() == "" ) {
+			// no numbers have been called
+			return true;
+		} else {
+			// numbers have been called
+			return false;
+		}
+	},
+	// update called numbers array
+	"updateCalledNumbersFormField" : function() {
+		this.selectors.calledNumbers.val(this.usedNumbers);
+	},
+	"removeCalledNumbersFromAvailableNumbers" : function() {
+		for ( var i = 0; i < this.usedNumbers.length; i++ ) {
+			var index = $.inArray(this.usedNumbers[i], this.availableNumbers );
+			if (index > -1) {
+			    this.availableNumbers.splice(index, 1);
+			}
+
+		}
+	},
+	"highlightPreviouslyCalledNumbers" : function() {
+		for ( var i = 0; i < this.usedNumbers.length; i++ ) {
+			this.highlightNumber(this.usedNumbers[i]);
+		}
+	},
+	"loadGame" : function() {
+		// add previously called numbers to usedNumbers
+		this.usedNumbers = this.selectors.calledNumbers.val().split(",");
+	},
+	"continueGame" : function(currGame) {
+		console.log("currGame gamespeed is: " + currGame.gameSpeed);
 		currGame.gameInterval = setInterval(function () {
+			console.log("in the interval");
 	        if (currGame.usedNumbers.length > 0 ) {
-				currGame.highlightNumber(currGame.currentNumber, "#bingoScoreboard");
+				currGame.highlightNumber(currGame.currentNumber, currGame.selectors.scoreboard);
 			}
 			var currentNumber = currGame.getNextNumber();
-			$('#currentNumber').text(currentNumber);
-			// add chosen number to the called_numbers array
-			$("#called_numbers").val(currGame.usedNumbers);
+			currGame.selectors.currentNumber.text(currentNumber);
+			currGame.selectors.calledNumbers.val(currGame.usedNumbers);
 			currGame.currentNumber = currentNumber;
 	    },currGame.gameSpeed);
 	},
-
+	"callNextNumber" : function() {
+		var nextNumber = this.getNextNumber();
+		this.selectors.currentNumber.text(nextNumber);
+		this.currentNumber = nextNumber;
+		this.updateCalledNumbersFormField();
+	},
+	"toggleGameButtons" : function() {
+		if ( this.game_running ) {
+			if ( this.selectors.saveButton.length ) {
+				this.selectors.saveButton.prop("disabled", true).val("Pause to Save Game")
+			}
+			this.selectors.resumeGameButton.hide();
+			this.selectors.stopGameButton.show();
+			
+		} else {
+			if ( this.selectors.saveButton.length ) {
+				this.selectors.saveButton.prop("disabled", false).val("Save Game");
+			}
+			this.selectors.stopGameButton.hide();
+			this.selectors.resumeGameButton.show();
+		}
+	},
 	// stop calling numbers
 	"stopGame": function() {
 		clearInterval(this.gameInterval);
+		this.game_running = false;
+		this.toggleGameButtons();
 	}
 };
-	
